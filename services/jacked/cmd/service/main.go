@@ -6,15 +6,17 @@ import (
 	"log/slog"
 	"net/http"
 	"os"
-	"os/signal"
 	"strconv"
-	"syscall"
 	"time"
 
-	"github.com/go-chi/chi/v5"
-
 	"pkg/config"
+	"pkg/web"
 )
+
+func setupHandler() http.Handler {
+	r := web.DefaultRouter()
+	return r
+}
 
 type Config struct {
 	Env             string        `envconfig:"ENV" default:"local"`
@@ -22,6 +24,29 @@ type Config struct {
 	ReadTimeout     time.Duration `envconfig:"READ_TIMEOUT" default:"5s"`
 	WriteTimeout    time.Duration `envconfig:"WRITE_TIMEOUT" default:"10s"`
 	ShutdownTimeout time.Duration `envconfig:"SHUTDOWN_TIMEOUT" default:"60s"`
+}
+
+func run(ctx context.Context, log *slog.Logger, cfg Config) error {
+	log.Info("Service started")
+
+	srv := http.Server{
+		Handler:      setupHandler(),
+		Addr:         ":" + strconv.Itoa(cfg.Port),
+		ReadTimeout:  cfg.ReadTimeout,
+		WriteTimeout: cfg.WriteTimeout,
+	}
+
+	go web.GracefulShutdown(ctx, &srv, cfg.ShutdownTimeout)
+
+	log.Info("Starting server", "address", srv.Addr)
+
+	if err := srv.ListenAndServe(); err != nil {
+		return fmt.Errorf("failed to start server: %w", err)
+	}
+
+	log.Info("Service stopped")
+
+	return nil
 }
 
 func main() {
@@ -38,55 +63,5 @@ func main() {
 	if err := run(ctx, log, cfg); err != nil {
 		log.Error("Error running service", "error", err)
 		os.Exit(1)
-	}
-}
-
-func run(ctx context.Context, log *slog.Logger, cfg Config) error {
-	log.Info("Service started")
-
-	r := chi.NewRouter()
-
-	r.Get("/health", func(w http.ResponseWriter, r *http.Request) {
-		w.WriteHeader(http.StatusOK)
-	})
-
-	srv := http.Server{
-		Handler:      r,
-		Addr:         ":" + strconv.Itoa(cfg.Port),
-		ReadTimeout:  cfg.ReadTimeout,
-		WriteTimeout: cfg.WriteTimeout,
-	}
-
-	go gracefulShutdown(ctx, &srv, cfg.ShutdownTimeout, log)
-
-	log.Info("Starting server", "address", srv.Addr)
-
-	if err := srv.ListenAndServe(); err != nil {
-		return fmt.Errorf("failed to start server: %w", err)
-	}
-
-	log.Info("Service stopped")
-
-	return nil
-}
-
-func gracefulShutdown(ctx context.Context, srv *http.Server, timeout time.Duration, log *slog.Logger) {
-	sig := make(chan os.Signal, 1)
-	signal.Notify(sig, syscall.SIGINT, syscall.SIGTERM)
-
-	<-sig
-
-	ctx, cancel := context.WithTimeout(ctx, timeout)
-	defer cancel()
-
-	go func() {
-		<-ctx.Done()
-		if err := ctx.Err(); err != nil {
-			log.Error("Shutdown timeout exceeded", "error", err)
-		}
-	}()
-
-	if err := srv.Shutdown(ctx); err != nil {
-		log.Error("Failed to shutdown server", "error", err)
 	}
 }
