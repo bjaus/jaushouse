@@ -12,8 +12,8 @@ import (
 	"time"
 
 	"github.com/go-chi/chi/v5"
-	"github.com/joho/godotenv"
-	"github.com/kelseyhightower/envconfig"
+
+	"pkg/config"
 )
 
 type Config struct {
@@ -29,14 +29,8 @@ func main() {
 
 	log := slog.New(slog.NewJSONHandler(os.Stdout, nil))
 
-	if envfile := os.Getenv("ENV_FILE"); envfile == "" {
-		if err := godotenv.Load(envfile); err != nil {
-			log.Warn("Failed to load .env file", "error", err)
-		}
-	}
-
-	var cfg Config
-	if err := envconfig.Process("", &cfg); err != nil {
+	cfg, err := config.Load[Config]()
+	if err != nil {
 		log.Error("Failed to load configuration", "error", err)
 		os.Exit(1)
 	}
