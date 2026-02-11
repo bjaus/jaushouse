@@ -1,0 +1,21 @@
+baseURL = 'https://blog.jaushouse.com/'
+languageCode = 'en-us'
+title = 'JausHouse Blog'
+theme = 'terminal'
+
+[params]
+  author = 'Brandon Jaus'
+  description = 'Writing about Go, architecture, and building things.'
+
+[taxonomies]
+  tag = 'tags'
+  category = 'categories'
+
+[markup]
+  [markup.highlight]
+    style = 'monokai'
+    lineNos = true
+    guessSyntax = true
+
+[pagination]
+  pagerSize = 10

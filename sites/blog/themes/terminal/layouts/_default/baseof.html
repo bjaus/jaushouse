@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode }}">
+<head>
+  {{ partial "head.html" . }}
+</head>
+<body>
+  <div class="terminal">
+    <div class="terminal-header">
+      <div class="terminal-buttons">
+        <span class="btn-close"></span>
+        <span class="btn-minimize"></span>
+        <span class="btn-maximize"></span>
+      </div>
+      <div class="terminal-title">brandon@jaushouse: ~/blog</div>
+      <div class="terminal-header-spacer"></div>
+    </div>
+    <div class="terminal-body">
+      <nav class="nav">
+        <a href="{{ "/" | absURL }}" class="nav-link">~/blog</a>
+        <a href="{{ "/tags/" | absURL }}" class="nav-link">/tags</a>
+        <a href="{{ "/categories/" | absURL }}" class="nav-link">/categories</a>
+        <a href="https://jaushouse.com" class="nav-link">../home</a>
+      </nav>
+      {{ block "main" . }}{{ end }}
+      <div class="cursor-line">
+        <span class="prompt">$</span>
+        <span class="cursor"></span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

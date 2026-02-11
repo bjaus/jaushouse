@@ -1,8 +1,9 @@
-name: Deploy
+name: Deploy Portfolio
 
 on:
   push:
     branches: [main]
+    paths: [sites/portfolio/**]
 
 jobs:
   deploy:
@@ -16,4 +17,4 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy . --project-name jaushouse --branch main
+          command: pages deploy sites/portfolio --project-name jaushouse --branch main
