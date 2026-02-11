@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JausHouse</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="terminal">
+    <div class="terminal-header">
+      <div class="terminal-buttons">
+        <span class="btn-close"></span>
+        <span class="btn-minimize"></span>
+        <span class="btn-maximize"></span>
+      </div>
+      <div class="terminal-title">brandon@jaushouse: ~</div>
+      <div class="terminal-header-spacer"></div>
+    </div>
+    <div class="terminal-body" id="terminal">
+
+      <!-- motd -->
+      <div class="section" data-cmd="cat /etc/motd">
+        <div class="output">
+          <pre class="ascii-art">
+       _                 _   _
+      | | __ _ _   _ ___| | | | ___  _   _ ___  ___
+   _  | |/ _` | | | / __| |_| |/ _ \| | | / __|/ _ \
+  | |_| | (_| | |_| \__ \  _  | (_) | |_| \__ \  __/
+   \___/ \__,_|\__,_|___/_| |_|\___/ \__,_|___/\___|
+          </pre>
+          <div class="line">
+            <span class="output-dim">rm -rf doubts && make things</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- uptime -->
+      <div class="section" data-cmd="uptime -s">
+        <div class="output">
+          <div class="line">
+            <span class="output-dim">up since Dec 1988</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- whoami -->
+      <div class="section" data-cmd="whoami --verbose">
+        <div class="output">
+          <div class="info-block">
+            <div class="info-row">
+              <span class="info-key">user</span>
+              <span class="info-val">Brandon Jaus</span>
+            </div>
+            <div class="info-row">
+              <span class="info-key">role</span>
+              <span class="info-val">Software Engineer</span>
+            </div>
+            <div class="info-row">
+              <span class="info-key">mail</span>
+              <span class="info-val"><a href="mailto:brandon@jaushouse.com" class="inline-link">brandon@jaushouse.com</a></span>
+            </div>
+            <div class="info-row">
+              <span class="info-key">lang</span>
+              <span class="info-val lang-tags"><span class="tag go">Go</span> <span class="tag py">Python</span> <span class="tag ts">TypeScript</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- tree -->
+      <div class="section" data-cmd="tree ~/services/">
+        <div class="output">
+          <div class="tree-block">
+            <div class="tree-line"><span class="tree-branch">.</span></div>
+            <div class="tree-line"><span class="tree-branch">├── </span><span class="tree-link">api/</span><span class="tree-comment"> # backend services and REST endpoints</span></div>
+            <div class="tree-line"><span class="tree-branch">├── </span><span class="tree-link">blog/</span><span class="tree-comment"> # writing, notes, and things I've learned along the way</span></div>
+            <div class="tree-line"><span class="tree-branch">├── </span><span class="tree-link">home/</span><span class="tree-comment"> # smart home dashboard, automations, and device management</span></div>
+            <div class="tree-line"><span class="tree-branch">└── </span><a href="https://github.com/bjaus" class="tree-link">github</a><span class="tree-arrow"> -> </span><span class="tree-comment">github.com/bjaus</span></div>
+            <div class="tree-summary">3 directories, 1 symlink</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- packages -->
+      <div class="section" data-cmd="ls -1 ~/go/src/github.com/bjaus/">
+        <div class="output">
+          <div class="package-grid">
+            <a href="https://github.com/bjaus/api" class="pkg" target="_blank" rel="noopener">
+              <span class="pkg-name">api/</span>
+              <span class="pkg-desc">Generics-first HTTP framework with automatic OpenAPI 3.1 spec generation</span>
+            </a>
+            <a href="https://github.com/bjaus/cli" class="pkg" target="_blank" rel="noopener">
+              <span class="pkg-name">cli/</span>
+              <span class="pkg-desc">Composable CLI framework built on small interfaces and type assertion</span>
+            </a>
+            <a href="https://github.com/bjaus/dispatch" class="pkg" target="_blank" rel="noopener">
+              <span class="pkg-name">dispatch/</span>
+              <span class="pkg-desc">Flexible message routing for event-driven applications</span>
+            </a>
+            <a href="https://github.com/bjaus/stash" class="pkg" target="_blank" rel="noopener">
+              <span class="pkg-name">stash/</span>
+              <span class="pkg-desc">Generic cache with TTL, eviction policies, and pluggable storage</span>
+            </a>
+            <a href="https://github.com/bjaus/errx" class="pkg" target="_blank" rel="noopener">
+              <span class="pkg-name">errx/</span>
+              <span class="pkg-desc">Structured error handling with error codes and slog integration</span>
+            </a>
+            <a href="https://github.com/bjaus/retry" class="pkg" target="_blank" rel="noopener">
+              <span class="pkg-name">retry/</span>
+              <span class="pkg-desc">Composable retry logic with dependency injection support</span>
+            </a>
+            <a href="https://github.com/bjaus/breaker" class="pkg" target="_blank" rel="noopener">
+              <span class="pkg-name">breaker/</span>
+              <span class="pkg-desc">Circuit breaker pattern for resilient services</span>
+            </a>
+            <a href="https://github.com/bjaus/etl" class="pkg" target="_blank" rel="noopener">
+              <span class="pkg-name">etl/</span>
+              <span class="pkg-desc">Concurrent Extract-Transform-Load pipeline with rate limiting</span>
+            </a>
+            <a href="https://github.com/bjaus/fmter" class="pkg" target="_blank" rel="noopener">
+              <span class="pkg-name">fmter/</span>
+              <span class="pkg-desc">Multi-format output renderer for structured data</span>
+            </a>
+            <a href="https://github.com/bjaus/null" class="pkg" target="_blank" rel="noopener">
+              <span class="pkg-name">null/</span>
+              <span class="pkg-desc">Generic nullable type with three-state support (unset, null, valid)</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <script src="terminal.js"></script>
+</body>
+</html>
