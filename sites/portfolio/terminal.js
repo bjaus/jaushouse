@@ -92,6 +92,16 @@ document.addEventListener('DOMContentLoaded', () => {
     for (let i = 0; i < sections.length; i++) {
       await runSection(sections[i], i === sections.length - 1);
     }
+
+    // Stagger fade-in of tech logos after typing completes
+    await wait(500);
+    const techPanel = document.getElementById('tech-panel');
+    if (techPanel) {
+      const icons = techPanel.querySelectorAll('img');
+      icons.forEach((icon, i) => {
+        setTimeout(() => icon.classList.add('visible'), i * 120);
+      });
+    }
   }
 
   run();
