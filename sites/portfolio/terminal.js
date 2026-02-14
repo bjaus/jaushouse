@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const terminal = document.getElementById('terminal');
-  const sections = Array.from(document.querySelectorAll('.section'));
+  const contentArea = document.getElementById('content-area');
+  const sections = Array.from(contentArea.querySelectorAll('.section'));
   const TYPE_SPEED = 40;
   const PAUSE_AFTER_CMD = 300;
   const PAUSE_BETWEEN_SECTIONS = 400;
@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const cursorLine = document.createElement('div');
   cursorLine.className = 'cmd-line';
   cursorLine.innerHTML = '<span class="prompt">$</span><span class="cursor"></span>';
-  terminal.insertBefore(cursorLine, sections[0]);
+  contentArea.insertBefore(cursorLine, sections[0]);
 
   function scrollToCursor() {
     cursorLine.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
